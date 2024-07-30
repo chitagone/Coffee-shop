@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="bg-gradient-to-r from-secondary to-secondary/90 text-white">
+    <div className="bg-gradient-to-r from-secondary to-secondary/90 text-white rounded-sm">
       <div className="container py-2">
         <div className="flex justify-between items-center gap-4">
           {/* logo section*/}
@@ -14,7 +14,7 @@ const Navbar = () => {
               href="/"
               className="font-bold text-2xl sm:text-3xl flex justify-center items-center gap-2 tracking-wider font-cursive  "
             >
-              <img src={cofee} alt="logo" className="w-14" />
+              <img src={cofee} alt="logo" className="w-20" />
               Coffee Cafe
             </a>
           </div>
@@ -34,7 +34,7 @@ const Navbar = () => {
               ))}
             </ul>
             <button className="bg-primary/70 px-4 py-2 rounded-full hover:scale-105 duration-200 flex items-center gap-3">
-              <Link to="/logins">Login</Link>
+              <Link to="/login">Login</Link>
               <span> / </span>
               <Link to="/register">Register</Link>
             </button>

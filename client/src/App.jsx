@@ -4,7 +4,13 @@ import "aos/dist/aos.css";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./pages/Register";
-import Logins from "./pages/Logins";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
+
+axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
 
 const App = () => {
   useEffect(() => {
@@ -18,9 +24,11 @@ const App = () => {
   return (
     <div className="overflow-x-hidden">
       <Navbar />
+      <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/logins" element={<Logins />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );

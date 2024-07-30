@@ -1,37 +1,102 @@
-import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { bg_register } from "../assets/website";
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const registerUser = async (e) => {
+    e.preventDefault(); // prevent page automatic reload
+
+    const { name, email, password } = data;
+    try {
+      const response = await axios.post("/register", { name, email, password });
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        setData({ name: "", email: "", password: "" });
+        toast.success("Registration Successful, Welcome!");
+        // navigate to the login page after successful registration
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="w-96 rounded-2xl bg-slate-900">
-        <div className="flex flex-col gap-2 p-8">
-          <p className="text-center text-3xl text-gray-300 mb-4">Register</p>
-          <input
-            className="bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-800"
-            placeholder="Name"
-          />
-          <input
-            className="bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-800"
-            placeholder="Email"
-          />
-          <input
-            className="bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-800"
-            placeholder="Password"
-          />
-          <label className="flex cursor-pointer items-center justify-between p-1 text-slate-400">
-            Accept terms of use
-            <div className="relative inline-block">
+    <div
+      className={`flex items-center justify-center min-h-screen bg-no-repeat bg-cover bg-center rounded-lg`}
+      style={{ backgroundImage: `url(${bg_register})` }}
+    >
+      <div
+        className="w-full max-w-md p-6 bg-[#2D1E13] rounded-lg shadow-xl lg:mr-[40rem] h-[30rem]"
+        data-aos="fade-up"
+        data-aos-once="true"
+      >
+        <h2 className="text-center text-3xl font-extrabold text-white mb-6">
+          Register
+        </h2>
+        <form onSubmit={registerUser} className="space-y-6">
+          <div className="rounded-md shadow-sm space-y-4">
+            <div>
+              <label className="sr-only" htmlFor="name">
+                Name
+              </label>
               <input
-                className="peer h-6 w-12 cursor-pointer appearance-none rounded-full border border-gray-300 bg-gary-400 checked:border-green-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2"
-                type="checkbox"
+                type="text"
+                placeholder="Enter Name ..."
+                className="appearance-none relative block w-full px-4 py-3 border border-[#2B1B12] bg-[#1F1309] text-white rounded-md focus:outline-none focus:ring-[#5E3A1F] focus:border-[#5E3A1F] sm:text-sm"
+                value={data.name}
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+                required
               />
-              <span className="pointer-events-none absolute left-1 top-1 block h-4 w-4 rounded-full bg-slate-600 transition-all duration-200 peer-checked:left-7 peer-checked:bg-green-300"></span>
             </div>
-          </label>
-          <button className="inline-block cursor-pointer rounded-md bg-gray-700 px-4 py-3.5 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-700 focus-visible:ring-offset-2 active:scale-95">
-            Register
-          </button>
-        </div>
+            <div>
+              <label className="sr-only" htmlFor="email">
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="Enter Email ..."
+                className="appearance-none relative block w-full px-4 py-3 border border-[#2B1B12] bg-[#1F1309] text-white rounded-md focus:outline-none focus:ring-[#5E3A1F] focus:border-[#5E3A1F] sm:text-sm"
+                value={data.email}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <label className="sr-only" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Enter Password ..."
+                className="appearance-none relative block w-full px-4 py-3 border border-[#2B1B12] bg-[#1F1309] text-white rounded-md focus:outline-none focus:ring-[#5E3A1F] focus:border-[#5E3A1F] sm:text-sm"
+                value={data.password}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#5E3A1F] hover:bg-[#4B2A14] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5E3A1F]"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
