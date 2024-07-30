@@ -1,6 +1,8 @@
 import React from "react";
 import { coffee2 } from "../../assets/images";
-import { banner_bg, bg_hero } from "../../assets/website";
+import { bg_hero } from "../../assets/website";
+import { Button } from "../../constants/Button/Button";
+import { location, order_cup } from "../../assets/icons";
 
 const Hero = () => {
   return (
@@ -32,10 +34,19 @@ const Hero = () => {
                     Vientiane
                   </span>
                 </h1>
-                <div data-aos="fade-up" data-aos-delay="400">
-                  <button className="bg-gradient-to-r from-primary to-secondary border-2 border-primary hover:scale-105 duration-200 text-white py-2 px-4 rounded-full">
-                    Coffee And Code
-                  </button>
+                <div
+                  className="flex gap-4"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                >
+                  <Button label="Order Now" iconURL={order_cup} />
+                  <Button
+                    label="Location"
+                    iconURL={location}
+                    backgroundColor="bg-[#c29d84]"
+                    textColor="text-white"
+                    font="font-cursive2"
+                  />
                 </div>
               </div>
               {/* Image section */}
