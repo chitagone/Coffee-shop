@@ -26,6 +26,9 @@ export default {
       animation: {
         "spin-slow": "spin 40s linear infinite",
       },
+      backgroundImage: {
+        card: "url('assets/website/coffee_footer.jpg')",
+      },
     },
   },
   plugins: [],

@@ -1,10 +1,13 @@
-import React from "react";
+import { useState } from "react";
 import { coffee2 } from "../../assets/images";
 import { bg_hero } from "../../assets/website";
 import { Button } from "../../constants/Button/Button";
 import { location, order_cup } from "../../assets/icons";
+import { coffees } from "../../constants";
+import { CoffeeCard } from "../../constants/CoffeeCard/CoffeeCard";
 
 const Hero = () => {
+  const [cofeeCup, setCoofeeCup] = useState(coffee2);
   return (
     <>
       <div
@@ -53,14 +56,27 @@ const Hero = () => {
               <div
                 data-aos="zoom-in"
                 data-aos-duration="300"
-                className="min-h-[450px] flex justify-center items-center relative order-1 sm:order-2 "
+                className="min-h-[450px] flex justify-center items-center relative order-1 sm:order-2 flex-col"
               >
                 <img
                   data-aos-once="true"
-                  src={coffee2}
+                  src={cofeeCup}
                   alt="biryani img"
                   className="w-[300px] sm:w-[450px] sm:scale-125 mx-auto spin "
                 />
+
+                <div className="flex sm:gap-6 gap-4">
+                  {coffees.map((image, index) => (
+                    <div key={index}>
+                      <CoffeeCard
+                        index={index}
+                        imgURL={image}
+                        changeCoffeeImage={(coffee) => setCoofeeCup(coffee)}
+                        cofeeCup={cofeeCup}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
