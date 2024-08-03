@@ -9,7 +9,7 @@ export const CoffeeCard = ({ imgURL, changeCoffeeImage, cofeeCup }) => {
     <div
       className={`border-2 ${
         cofeeCup === imgURL.cofees
-          ? "border-primary rounded-2xl"
+          ? "border-primary rounded-2xl  "
           : "border-transparent rounded-xl"
       } cursor-pointer max-sm:flex-1 sm:w-24 sm:h-24 lg:w-32 lg:h-32`}
       onClick={handleClick}

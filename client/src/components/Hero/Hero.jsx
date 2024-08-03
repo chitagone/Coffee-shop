@@ -42,13 +42,18 @@ const Hero = () => {
                   data-aos="fade-up"
                   data-aos-delay="400"
                 >
-                  <Button label="Order Now" iconURL={order_cup} />
+                  <Button
+                    label="Order Now"
+                    iconURL={order_cup}
+                    location="/#services"
+                  />
                   <Button
                     label="Location"
                     iconURL={location}
                     backgroundColor="bg-[#c29d84]"
                     textColor="text-white"
                     font="font-cursive2"
+                    location="https://maps.app.goo.gl/PMRYpyFPwYE8VeAF6"
                   />
                 </div>
               </div>
