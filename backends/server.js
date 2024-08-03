@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import coffeeRoute from "./src/routes/coffeeRout.js";
+import dessertRout from "./src/routes/dessertRout.js";
 import connectDB from "./src/config/mongodb.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 
@@ -20,6 +21,7 @@ app.use(cors());
 // initializing routes
 
 app.use("/api/coffee", coffeeRoute);
+app.use("/api/dessert", dessertRout);
 
 app.get("/", (req, res) => {
   res.send("API is working");

@@ -1,5 +1,9 @@
 import express from "express";
-import { addCoffee, listCoffee } from "../controllers/coffeeController.js";
+import {
+  addCoffee,
+  listCoffee,
+  removeCoffee,
+} from "../controllers/coffeeController.js";
 import upload from "../middleware/multer.js";
 const coffeeRoute = express.Router();
 
@@ -12,6 +16,8 @@ coffeeRoute.post(
 
 // create API for list song
 coffeeRoute.get("/list", listCoffee);
+
+coffeeRoute.post("/remove", removeCoffee);
 
 // export the songRoute
 export default coffeeRoute;

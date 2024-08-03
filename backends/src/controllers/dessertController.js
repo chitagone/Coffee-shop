@@ -1,8 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
-import coffeeModel from "../models/coffeeModel.js";
+import dessertModel from "../models/dessertModel.js";
 
-// create add song and list song API
-const addCoffee = async (req, res) => {
+const addDessert = async (req, res) => {
   try {
     const name = req.body.name;
     const desc = req.body.desc;
@@ -13,15 +12,15 @@ const addCoffee = async (req, res) => {
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
       resource_type: "image",
     });
-    const coffeeData = {
+    const dessertData = {
       name,
       desc,
       price,
       image: imageUpload.secure_url,
     };
-    const coffee = coffeeModel(coffeeData);
+    const coffee = dessertModel(dessertData);
     await coffee.save();
-    res.json({ success: true, message: "Coffee Added" });
+    res.json({ success: true, message: "Dessert Added" });
   } catch (error) {
     res.json({
       success: false,
@@ -30,12 +29,12 @@ const addCoffee = async (req, res) => {
   }
 };
 
-const listCoffee = async (req, res) => {
+const listDessert = async (req, res) => {
   try {
-    const allCoffee = await coffeeModel.find({});
+    const allDessert = await dessertModel.find({});
     res.json({
       success: true,
-      coffee: allCoffee,
+      dessert: allDessert,
     });
   } catch (error) {
     res.json({
@@ -44,10 +43,10 @@ const listCoffee = async (req, res) => {
   }
 };
 
-const removeCoffee = async (req, res) => {
+const removeDessert = async (req, res) => {
   try {
-    await coffeeModel.findByIdAndDelete(req.body.id);
-    res.json({ success: true, message: "Coffee has been remove" });
+    await dessertModel.findByIdAndDelete(req.body.id);
+    res.json({ success: true, message: "Dessert has been remove" });
   } catch (error) {
     res.json({
       success: false,
@@ -55,4 +54,4 @@ const removeCoffee = async (req, res) => {
   }
 };
 
-export { addCoffee, listCoffee, removeCoffee };
+export { addDessert, listDessert, removeDessert };
