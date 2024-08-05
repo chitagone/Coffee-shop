@@ -7,6 +7,7 @@ import AddDessert from "./pages/AddDessert";
 import ListDessert from "./pages/ListDessert";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import Member from "./pages/Member";
 const App = () => {
   return (
     <div className="flex items-start min-h-screen">
@@ -21,6 +22,7 @@ const App = () => {
 
             <Route path="/add-dessert" element={<AddDessert />} />
             <Route path="/list-dessert" element={<ListDessert />} />
+            <Route path="/list-member" element={<Member />} />
           </Routes>
         </div>
       </div>

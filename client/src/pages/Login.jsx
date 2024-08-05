@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { banner_bg, cofee, login_bg } from "../assets/website";
+import { cofee, login_bg } from "../assets/website";
+import { url } from "../constants";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,12 +17,16 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      const response = await axios.post("/login", { email, password });
+      const response = await axios.post(`${url}/api/auth/login`, {
+        email,
+        password,
+      });
       if (response.data.error) {
         toast.error(response.data.error);
       } else {
         // set the form to default value
         setData({ email: "", password: "" });
+        toast.success("Login Success");
         navigate("/");
       }
     } catch (error) {
