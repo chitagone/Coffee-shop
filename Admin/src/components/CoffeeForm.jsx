@@ -1,45 +1,91 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { url } from "../constants";
 import { assets } from "../assets/assets";
 import { MdClose } from "react-icons/md";
 
 const AddCoffee = ({ type, coffeeData, onClose, getAllCoffee }) => {
+  // State to manage the image file and its preview URL
   const [image, setImage] = useState(null);
-  const [price, setPrice] = useState("");
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+  const [preview, setPreview] = useState(
+    coffeeData?.image ? coffeeData.image : assets.upload_area
+  );
+  const [price, setPrice] = useState(coffeeData?.price || "");
+  const [name, setName] = useState(coffeeData?.name || "");
+  const [desc, setDesc] = useState(coffeeData?.desc || "");
   const [loading, setLoading] = useState(false);
 
-  const onSubmitHandler = async (e) => {
+  // Update preview when image state changes
+  useEffect(() => {
+    if (image) {
+      setPreview(URL.createObjectURL(image));
+    } else if (coffeeData?.image) {
+      setPreview(coffeeData.image);
+    } else {
+      setPreview(assets.upload_area);
+    }
+  }, [image, coffeeData?.image]);
+
+  // Handle file input change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  // Handle form submission for adding or editing coffee
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("desc", desc);
-      formData.append("price", price);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("desc", desc);
+    formData.append("price", price);
+    if (image) {
       formData.append("image", image);
+    }
 
-      const response = await axios.post(`${url}/api/coffee/add`, formData);
+    try {
+      const response =
+        type === "edit"
+          ? await axios.put(
+              `${url}/api/coffee/edit/${coffeeData._id}`,
+              formData,
+              {
+                headers: { "Content-Type": "multipart/form-data" },
+              }
+            )
+          : await axios.post(`${url}/api/coffee/add`, formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            });
+
       if (response.data.success) {
-        toast.success("Coffee added successfully");
+        toast.success(
+          type === "edit"
+            ? "Coffee updated successfully"
+            : "Coffee added successfully"
+        );
         setDesc("");
         setImage(null);
         setName("");
         setPrice("");
+        setPreview(assets.upload_area); // Reset preview to default
         getAllCoffee();
         onClose();
       } else {
-        toast.error("Something went wrong");
+        toast.error(`Something went wrong: ${response.data.message}`);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("An error occurred");
+      console.error("Error:", error);
+      toast.error(
+        `An error occurred: ${error.response?.data?.message || error.message}`
+      );
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return loading ? (
@@ -49,9 +95,10 @@ const AddCoffee = ({ type, coffeeData, onClose, getAllCoffee }) => {
   ) : (
     <form
       className="flex flex-col items-center gap-6 p-6 max-w-lg mx-auto bg-white shadow-lg rounded-lg relative"
-      onSubmit={onSubmitHandler}
+      onSubmit={handleSubmit}
     >
       <button
+        type="button"
         className="w-10 h-10 bg-slate-300 rounded-full flex items-center justify-center absolute -top-3 -right-3"
         onClick={onClose}
       >
@@ -60,7 +107,7 @@ const AddCoffee = ({ type, coffeeData, onClose, getAllCoffee }) => {
       <div className="flex flex-col items-center gap-4">
         <p className="text-lg font-semibold">Upload Coffee</p>
         <input
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={handleImageChange}
           type="file"
           id="image"
           accept="image/*"
@@ -69,7 +116,7 @@ const AddCoffee = ({ type, coffeeData, onClose, getAllCoffee }) => {
         <label htmlFor="image" className="cursor-pointer">
           <img
             className="w-32 h-32 object-cover rounded-lg border-2 border-dashed border-gray-300"
-            src={image ? URL.createObjectURL(image) : assets.upload_area}
+            src={preview}
             alt="Upload area"
           />
         </label>
@@ -118,7 +165,7 @@ const AddCoffee = ({ type, coffeeData, onClose, getAllCoffee }) => {
         type="submit"
         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#8b5946] hover:bg-[#724641] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b5946]"
       >
-        Add
+        {type === "edit" ? "Edit" : "Add"}
       </button>
     </form>
   );

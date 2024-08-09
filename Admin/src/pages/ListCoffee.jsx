@@ -41,17 +41,21 @@ function ListCoffee() {
   const editCoffee = async (coffeeDetail) => {
     setOpenAddEditModal({ isShown: true, data: coffeeDetail, type: "edit" });
   };
+
+  const addCoffee = async () => {
+    setOpenAddEditModal({ isShown: true, data: null, type: "add" });
+  };
   useEffect(() => {
     fetchAlbums();
   }, []);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto ">
       <p className="text-3xl font-extrabold mb-8 text-center text-gray-800">
         All Coffee List
       </p>
       {openAddEditModl.isShown ? (
-        <div className="w-full h-full">
+        <div className="flex items-center justify-center">
           <Modal
             isOpen={openAddEditModl.isShown}
             onRequestClose={() => {
@@ -120,7 +124,7 @@ function ListCoffee() {
               <span className="text-gray-600">{item.desc}</span>
               <div className="flex items-center justify-center gap-4">
                 <MdCreate
-                  onClick={editCoffee}
+                  onClick={() => editCoffee(item)}
                   className="cursor-pointer text-blue-600 hover:text-blue-800 transition-all duration-200 text-2xl"
                 />
                 <MdDelete
@@ -132,6 +136,12 @@ function ListCoffee() {
           ))}
         </div>
       )}
+      <button
+        onClick={() => addCoffee()}
+        className="inline-flex justify-center py-4 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#8b5946] hover:bg-[#724641] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b5946] absolute bottom-3 right-3"
+      >
+        Add
+      </button>
     </div>
   );
 }

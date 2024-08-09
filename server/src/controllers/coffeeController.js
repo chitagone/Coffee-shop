@@ -84,7 +84,7 @@ const editCoffee = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Coffee not found" });
     }
-
+    await updatedCoffee.save();
     res.json({
       success: true,
       message: "Coffee updated",
@@ -98,5 +98,5 @@ const editCoffee = async (req, res) => {
     });
   }
 };
-
-export { addCoffee, listCoffee, removeCoffee, editCoffee };
+const searchCoffee = async (req, res) => {};
+export { addCoffee, listCoffee, removeCoffee, editCoffee, searchCoffee };
