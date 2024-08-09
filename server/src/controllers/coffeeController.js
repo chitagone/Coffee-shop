@@ -55,4 +55,48 @@ const removeCoffee = async (req, res) => {
   }
 };
 
-export { addCoffee, listCoffee, removeCoffee };
+const editCoffee = async (req, res) => {
+  try {
+    const coffeeId = req.params.coffeeId.trim();
+    const { name, desc, price } = req.body;
+    let imageUpload;
+
+    if (req.files?.image?.[0]) {
+      const imageFile = req.files.image[0];
+      imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+    }
+
+    const updatedCoffee = await coffeeModel.findByIdAndUpdate(
+      coffeeId,
+      {
+        name,
+        desc,
+        price,
+        ...(imageUpload && { image: imageUpload.secure_url }),
+      },
+      { new: true }
+    );
+
+    if (!updatedCoffee) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Coffee not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Coffee updated",
+      coffee: updatedCoffee,
+    });
+  } catch (error) {
+    console.error("Error updating coffee:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while updating the coffee",
+    });
+  }
+};
+
+export { addCoffee, listCoffee, removeCoffee, editCoffee };
