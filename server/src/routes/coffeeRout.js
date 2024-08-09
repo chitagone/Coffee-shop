@@ -4,6 +4,7 @@ import {
   listCoffee,
   removeCoffee,
   editCoffee,
+  searchCoffee,
 } from "../controllers/coffeeController.js";
 import upload from "../middleware/multer.js";
 
@@ -27,6 +28,9 @@ coffeeRoute.put(
   upload.fields([{ name: "image", maxCount: 1 }]),
   editCoffee
 );
+
+// Search API
+coffeeRoute.get("/search-coffee", searchCoffee);
 
 // export the songRoute
 export default coffeeRoute;

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { MdDelete, MdCreate } from "react-icons/md";
 import Modal from "react-modal";
 import CoffeeForm from "../components/CoffeeForm";
+import Navbar from "../components/Navbar";
 
 function ListCoffee() {
   const [data, setData] = useState([]);
@@ -14,6 +15,8 @@ function ListCoffee() {
     type: "add",
     data: null,
   });
+
+  const [isSearch, setIsSearch] = useState(false);
 
   const fetchAlbums = async () => {
     try {
@@ -45,12 +48,37 @@ function ListCoffee() {
   const addCoffee = async () => {
     setOpenAddEditModal({ isShown: true, data: null, type: "add" });
   };
+
+  const onSearchCoffee = async (query, priceMin, priceMax) => {
+    try {
+      const response = await axios.get(`${url}/api/coffee/search-coffee`, {
+        params: { query, priceMin, priceMax },
+      });
+      if (response.data && response.data.coffee) {
+        setIsSearch(true);
+        setData(response.data.coffee);
+      }
+    } catch (error) {
+      console.error("Error searching coffee:", error);
+      toast.error("Error occurred while searching for coffee");
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    fetchAlbums();
+  };
+
   useEffect(() => {
     fetchAlbums();
   }, []);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto ">
+    <div className="px-6 max-w-7xl mx-auto ">
+      <Navbar
+        onSearchCoffee={onSearchCoffee}
+        handleClearSearch={handleClearSearch}
+      />
       <p className="text-3xl font-extrabold mb-8 text-center text-gray-800">
         All Coffee List
       </p>

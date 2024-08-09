@@ -6,7 +6,7 @@ import ListCoffee from "./pages/ListCoffee";
 import AddDessert from "./pages/AddDessert";
 import ListDessert from "./pages/ListDessert";
 import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Member from "./pages/Member";
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
       <ToastContainer />
       <Sidebar />
       <div className="flex-1 h-screen overflow-scroll bg-[#dcd4c0]">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="pt-8 pl-5 sm:pt-12 sm:pl-12">
           <Routes>
             <Route path="/add-coffee" element={<AddCoffee />} />

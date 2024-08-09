@@ -98,5 +98,46 @@ const editCoffee = async (req, res) => {
     });
   }
 };
-const searchCoffee = async (req, res) => {};
+const searchCoffee = async (req, res) => {
+  try {
+    const { query, priceMin, priceMax } = req.query;
+
+    // Create a regex for case-insensitive search
+    const regex = query ? new RegExp(query, "i") : null;
+
+    // Build search conditions
+    const searchConditions = {};
+
+    if (regex) {
+      searchConditions.$or = [
+        { name: { $regex: regex } },
+        { desc: { $regex: regex } },
+      ];
+    }
+
+    if (priceMin !== undefined || priceMax !== undefined) {
+      searchConditions.price = {};
+      if (priceMin !== undefined) {
+        searchConditions.price.$gte = parseFloat(priceMin);
+      }
+      if (priceMax !== undefined) {
+        searchConditions.price.$lte = parseFloat(priceMax);
+      }
+    }
+
+    // Find coffee entries matching the conditions
+    const matchingCoffee = await coffeeModel.find(searchConditions);
+
+    res.json({
+      success: true,
+      coffee: matchingCoffee,
+    });
+  } catch (error) {
+    console.error("Error searching coffee:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while searching for coffee",
+    });
+  }
+};
 export { addCoffee, listCoffee, removeCoffee, editCoffee, searchCoffee };
