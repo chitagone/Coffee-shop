@@ -2,14 +2,53 @@ import { coffee_texture } from "../../assets/website";
 import axios from "axios";
 
 import { url } from "../../constants";
+import Navbar from "../Navbar/Navbar";
+import { useState, useEffect } from "react";
 
-const response = await axios.get(`${url}/api/coffee/list`);
-
-export const CoffeeMenus = response.data.coffee;
+import { toast } from "react-hot-toast";
 
 const Services = () => {
+  const [data, setData] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
+  const fetchCoffee = async () => {
+    try {
+      const response = await axios.get(`${url}/api/coffee/list`);
+      if (response.data.success) {
+        setData(response.data.coffee);
+      }
+    } catch (error) {
+      toast.error("Error Occurred");
+    }
+  };
+  const onSearchCoffee = async (query, priceMin, priceMax) => {
+    try {
+      const response = await axios.get(`${url}/api/coffee/search-coffee`, {
+        params: { query, priceMin, priceMax },
+      });
+      if (response.data && response.data.coffee) {
+        setIsSearch(true);
+        setData(response.data.coffee);
+      }
+    } catch (error) {
+      console.error("Error searching coffee:", error);
+      toast.error("Error occurred while searching for coffee");
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    fetchCoffee();
+  };
+
+  useEffect(() => {
+    fetchCoffee();
+  }, []);
   return (
     <>
+      <Navbar
+        onSearchCoffee={onSearchCoffee}
+        handleClearSearch={handleClearSearch}
+      />
       <div
         className={`justify-center  bg-no-repeat bg-cover bg-center`}
         style={{ backgroundImage: `url(${coffee_texture})` }}
@@ -25,7 +64,7 @@ const Services = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 md:gap-5 place-items-center">
-              {CoffeeMenus.map((data, index) => (
+              {data.map((data, index) => (
                 <div
                   data-aos="fade-up"
                   data-aos-delay={index * 100}

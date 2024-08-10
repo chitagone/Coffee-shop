@@ -13,6 +13,8 @@ import dessert_list from "./dessert_list.png";
 import dessert from "./dessert.png";
 import coffee from "./coffee.png";
 import membership from "./membership.png";
+import noFound from "./noFound.png";
+import no from "./no.png";
 
 export const assets = {
   logo,
@@ -30,4 +32,6 @@ export const assets = {
   dessert,
   coffee,
   membership,
+  noFound,
+  no,
 };
