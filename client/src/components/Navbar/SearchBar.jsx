@@ -17,12 +17,11 @@ const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
           onClick={onClearSearch}
         />
       )}
-      <a href="/#services">
-        <FaMagnifyingGlass
-          className="text-slate-400 cursor-pointer hover:text-black"
-          onClick={handleSearch}
-        />
-      </a>
+
+      <FaMagnifyingGlass
+        className="text-slate-400 cursor-pointer hover:text-black"
+        onClick={handleSearch}
+      />
     </div>
   );
 };

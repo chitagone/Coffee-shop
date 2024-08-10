@@ -4,6 +4,7 @@ import "dotenv/config";
 import coffeeRoute from "./src/routes/coffeeRout.js";
 import dessertRout from "./src/routes/dessertRout.js";
 import userRoute from "./src/routes/authRoutes.js";
+import searchRoute from "./src/routes/AllSearchRoute.js";
 import connectDB from "./src/config/mongodb.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 import cookieParser from "cookie-parser"; // Changed to import
@@ -27,6 +28,7 @@ app.use(cors());
 app.use("/api/coffee", coffeeRoute);
 app.use("/api/dessert", dessertRout);
 app.use("/api/auth", userRoute);
+app.use("/api/", searchRoute);
 
 app.get("/", (req, res) => {
   res.send("API is working");

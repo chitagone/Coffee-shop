@@ -5,6 +5,7 @@ import {
   removeDessert,
   listDessert,
   editDessert,
+  SearchDessert,
 } from "../controllers/dessertController.js";
 
 import upload from "../middleware/multer.js";
@@ -28,6 +29,9 @@ dessertRout.put(
   upload.fields([{ name: "image", maxCount: 1 }]),
   editDessert
 );
+
+// Search API
+dessertRout.get("/search-dessert", SearchDessert);
 
 // export the songRoute
 export default dessertRout;

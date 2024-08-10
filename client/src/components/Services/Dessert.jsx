@@ -1,6 +1,8 @@
 import { coffee_texture } from "../../assets/website";
 import axios from "axios";
-
+import Navbar from "../Navbar/Navbar";
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { url } from "../../constants";
 
 const response = await axios.get(`${url}/api/dessert/list`);
@@ -8,6 +10,23 @@ const response = await axios.get(`${url}/api/dessert/list`);
 export const CoffeeMenus = response.data.dessert;
 
 export const Dessert = () => {
+  const [data, setData] = useState([]);
+
+  const featchDessert = async () => {
+    try {
+      const response = await axios.get(`${url}/api/dessert/list`);
+      if (response.data.success) {
+        setData(response.data.dessert);
+      }
+    } catch (error) {
+      toast.error("Error Occured");
+    }
+  };
+
+  useEffect(() => {
+    featchDessert();
+  });
+
   return (
     <>
       <div
@@ -25,7 +44,7 @@ export const Dessert = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14 md:gap-5 place-items-center">
-              {CoffeeMenus.map((data, index) => (
+              {data.map((data, index) => (
                 <div
                   data-aos="fade-up"
                   data-aos-delay={index * 100}

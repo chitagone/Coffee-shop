@@ -30,7 +30,7 @@ const Sidebar = () => {
           <img src={assets.coffee} className="w-5" />
           <p className="hidden sm:block">Coffee Menu</p>
         </NavLink>
-        {/* 
+        {/* s
         <NavLink
           className="flex items-center gap-2.5 text-gray-800 bg-white border border-black p-2 pr-[max(8vw,10px)] drop-shadow-[-4px_4px_#3b2d31] text-sm font-medium "
           to="add-dessert"
