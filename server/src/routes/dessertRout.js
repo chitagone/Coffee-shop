@@ -4,6 +4,7 @@ import {
   addDessert,
   removeDessert,
   listDessert,
+  editDessert,
 } from "../controllers/dessertController.js";
 
 import upload from "../middleware/multer.js";
@@ -16,10 +17,17 @@ dessertRout.post(
   addDessert
 );
 
-// create API for list song
+// get all dessert
 dessertRout.get("/list", listDessert);
 
+// delete API
 dessertRout.post("/remove", removeDessert);
+
+dessertRout.put(
+  "/edit/:dessertId",
+  upload.fields([{ name: "image", maxCount: 1 }]),
+  editDessert
+);
 
 // export the songRoute
 export default dessertRout;

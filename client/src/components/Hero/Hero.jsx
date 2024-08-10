@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <>
       <div
-        className={`justify-center  bg-no-repeat bg-cover bg-center`}
+        className={`justify-center  bg-no-repeat bg-cover bg-center mt-16`}
         style={{ backgroundImage: `url(${bg_hero})` }}
       >
         <div className="min-h-[550px] sm:min-h-[600px] flex justify-center items-center text-[#c29d84]">

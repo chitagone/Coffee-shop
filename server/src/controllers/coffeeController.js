@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import coffeeModel from "../models/coffeeModel.js";
 
-// create add song and list song API
+// create add Coffee
 const addCoffee = async (req, res) => {
   try {
     const name = req.body.name;
@@ -30,6 +30,7 @@ const addCoffee = async (req, res) => {
   }
 };
 
+// show coffee API
 const listCoffee = async (req, res) => {
   try {
     const allCoffee = await coffeeModel.find({});
@@ -43,7 +44,7 @@ const listCoffee = async (req, res) => {
     });
   }
 };
-
+// remove API
 const removeCoffee = async (req, res) => {
   try {
     await coffeeModel.findByIdAndDelete(req.body.id);
@@ -55,6 +56,7 @@ const removeCoffee = async (req, res) => {
   }
 };
 
+// Edit API
 const editCoffee = async (req, res) => {
   try {
     const coffeeId = req.params.coffeeId.trim();
